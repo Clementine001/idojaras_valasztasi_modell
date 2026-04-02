@@ -79,7 +79,7 @@ st.markdown("---")
 m1, m2, m3 = st.columns(3)
 m1.metric("Hőmérséklet hatása", f"{c_temp_p:+.2f} %")
 m2.metric("Csapadék hatása", f"{c_rain_p:+.2f} %")
-m3.metric("Várható részvétel", f"{total_res:.1f} %")
+m3.metric("Várható korrigált részvétel", f"{total_res:.1f} %")
 
 if temp < -3.4 or temp > 16.7 or rain > 11.9:
     st.warning("⚠️ **Figyelem:** A beállított értékek kívül esnek a tanulmányban vizsgált eredeti tartományon (-3,4°C – 16,7°C és max. 11,9 mm). Az ezen kívüli becslések statisztikailag bizonytalanabbak.")
