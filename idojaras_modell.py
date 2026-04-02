@@ -56,7 +56,7 @@ with st.container():
         rain = st.number_input("Várható napi csapadékösszeg (mm)", 0, 100, 0)
     
     temp = st.select_slider("Várható napi átlaghőmérséklet (°C)", 
-                            options=np.arange(-15.0, 35.5, 0.5).tolist(), value=5.0)
+                            options=np.arange(-5.0, 21.0, 0.5).tolist(), value=5.0)
 
 # --- MATEMATIKAI SZÁMÍTÁSOK ---
 peak_temp = 4.9943
@@ -98,7 +98,7 @@ def style_plot(ax, title, xlabel):
         spine.set_visible(False)
 
 with g1:
-    t_axis = np.linspace(-15, 35, 100)
+    t_axis = np.linspace(-5, 20, 100)
     y_temp = [calc_temp_p(t) for t in t_axis]
     fig1, ax1 = plt.subplots(figsize=(4, 2.5))
     ax1.plot(t_axis, y_temp, color='#1f77b4', lw=2)
@@ -108,7 +108,7 @@ with g1:
     st.pyplot(fig1)
 
 with g2:
-    r_axis = np.linspace(0, 50, 100)
+    r_axis = np.linspace(0, 40, 100)
     y_rain = [calc_rain_p(r) for r in r_axis]
     fig2, ax2 = plt.subplots(figsize=(4, 2.5))
     ax2.plot(r_axis, y_rain, color='#ff7f0e', lw=2)
@@ -130,7 +130,7 @@ st.write("### A modell matematikai háttere")
 
 # Hőmérséklet egyenlete - a tanulmány szerinti sorrendben
 st.write("**1. Hőmérsékleti hatás (négyzetes összefüggés):**")
-st.latex(r"f(T) = -0,0002628 \cdot T^2 + 0,002625 \cdot T")
+st.latex(r"f(T) = 0,002625 \cdot T - 0,0002628 \cdot T^2")
 
 st.write("**2. Csapadék hatása (lineáris összefüggés):**")
 st.latex(r"\Delta Részvétel = -0,0009251 \cdot Csapadék_{mm}")
