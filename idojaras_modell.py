@@ -127,8 +127,9 @@ A 2014 és 2022 közötti magyarországi választási adatokat elemző kutatás 
 # --- MATEMATIKAI HÁTTÉR ---
 st.write("### A modell matematikai háttere")
 
+# Hőmérséklet egyenlete - a tanulmány szerinti sorrendben
 st.write("**1. Hőmérsékleti hatás (négyzetes összefüggés):**")
-st.latex(r"f(T) = 0,002625 \cdot T - 0,0002628 \cdot T^2")
+st.latex(r"f(T) = -0,0002628 \cdot T^2 + 0,002625 \cdot T")
 
 st.write("**2. Csapadék hatása (lineáris összefüggés):**")
 st.latex(r"\Delta Részvétel = -0,0009251 \cdot Csapadék_{mm}")
