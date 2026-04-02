@@ -9,19 +9,30 @@ st.set_page_config(page_title="Választási Kalkulátor", layout="centered")
 st.markdown("""
     <style>
     .block-container { padding-top: 1.5rem; }
-    /* Ez a rész felel a metrika dobozok mobil megjelenéséért */
+    
+    /* A metrika dobozok teljes újratervezése */
     [data-testid="stMetric"] {
         border: 1px solid #e6e9ef;
-        padding: 10px;
+        padding: 5px !important; /* Kisebb belső hely */
         border-radius: 5px;
         background: #fafafa;
-        width: 100%;
+        text-align: center;
     }
-    /* Elrejti a felesleges margót mobilon */
+
+    /* A felirat (label) méretének csökkentése */
+    [data-testid="stMetricLabel"] {
+        font-size: 0.8rem !important;
+        white-space: nowrap; /* Ne törje több sorba a feliratot */
+    }
+
+    /* A nagy szám (value) méretének csökkentése */
+    [data-testid="stMetricValue"] {
+        font-size: 1.2rem !important;
+    }
+
+    /* Oszlopok igazítása mobilon */
     [data-testid="column"] {
-        width: 100% !important;
-        flex: 1 1 calc(33.333% - 1rem) !important;
-        min-width: 150px;
+        padding: 5px !important;
     }
     </style>
     """, unsafe_allow_html=True)
