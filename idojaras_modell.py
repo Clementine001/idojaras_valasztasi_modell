@@ -93,6 +93,7 @@ def style_plot(ax, title, xlabel):
     ax.tick_params(labelsize=8)
     ax.grid(True, alpha=0.15)
     ax.set_xlabel(xlabel, fontsize=8)
+    ax.set_ylabel("%", fontsize=8)
     for spine in ax.spines.values():
         spine.set_visible(False)
 
