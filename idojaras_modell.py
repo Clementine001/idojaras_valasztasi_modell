@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 # Layout beállítása középre
 st.set_page_config(page_title="Választási Kalkulátor", layout="centered")
 
-# Egyedi stílus a kompakt megjelenéshez
+# Egyedi stílus a kompakt megjelenéshez és mobil nézethez
 st.markdown("""
     <style>
     .block-container { padding-top: 1.5rem; }
@@ -17,14 +17,14 @@ st.markdown("""
         border-radius: 5px !important;
         background-color: #fafafa !important;
         text-align: center !important;
-        min-height: 80px !important; /* Legyen elég hely a tartalomnak */
+        min-height: 80px !important;
         display: block !important;
     }
 
     /* A felirat (label) kényszerítése */
     [data-testid="stMetricLabel"] > div {
         font-size: 0.75rem !important;
-        color: #555555 !important; /* Sötétszürke felirat */
+        color: #555555 !important;
         overflow: visible !important;
         text-overflow: unset !important;
         white-space: normal !important;
@@ -34,7 +34,7 @@ st.markdown("""
     /* A számérték (value) kényszerítése */
     [data-testid="stMetricValue"] > div {
         font-size: 1.2rem !important;
-        color: #31333F !important; /* Erős sötét szín a számnak */
+        color: #31333F !important;
         font-weight: 700 !important;
     }
 
@@ -46,7 +46,6 @@ st.markdown("""
     """, unsafe_allow_html=True)
 
 st.header("🗳️ Az időjárás hatása a választási részvételre")
-#st.caption("Dinamikus időjárás-modell (2014-2022)")
 
 # --- BEÁLLÍTÁSOK ---
 with st.container():
@@ -57,16 +56,18 @@ with st.container():
         rain = st.number_input("Várható napi csapadékösszeg (mm)", 0, 100, 0)
     
     temp = st.select_slider("Várható napi átlaghőmérséklet (°C)", 
-                            options=np.arange(-15.0, 35.5, 0.5).tolist(), value=5.0)
+                            options=np.arange(-15.0, 35.5, 0.5).tolist(), value=10.0)
 
 # --- MATEMATIKAI SZÁMÍTÁSOK ---
 peak_temp = 4.9943
 def calc_temp_p(t):
+    # A tanulmány 6. modellje alapján: 0.002625*T - 0.0002628*T^2
     raw = (-0.0002628 * (t**2)) + (0.002625 * t)
     peak_raw = (-0.0002628 * (peak_temp**2)) + (0.002625 * peak_temp)
     return (raw - peak_raw) * 100
 
 def calc_rain_p(r):
+    # A tanulmány alapján: -0.0009251 * mm
     return (-0.0009251 * r) * 100
 
 c_temp_p = calc_temp_p(temp)
@@ -83,7 +84,7 @@ m3.metric("Várható részvétel", f"{total_res:.1f} %")
 if temp < -3.4 or temp > 16.7 or rain > 11.9:
     st.warning("⚠️ **Figyelem:** A beállított értékek kívül esnek a tanulmányban vizsgált eredeti tartományon (-3,4°C – 16,7°C és max. 11,9 mm). Az ezen kívüli becslések statisztikailag bizonytalanabbak.")
 
-# --- DINAMIKUS GRAFIKONOK PIROS GÖMBBEL ÉS OPTIMUMMAL ---
+# --- GRAFIKONOK ---
 st.write("---")
 g1, g2 = st.columns(2)
 
@@ -95,58 +96,45 @@ def style_plot(ax, title, xlabel):
     for spine in ax.spines.values():
         spine.set_visible(False)
 
-# 1. Hőmérséklet grafikon
 with g1:
     t_axis = np.linspace(-15, 35, 100)
-    y_temp = calc_temp_p(t_axis)
-    fig1, ax1 = plt.subplots(figsize=(4, 2))
-    ax1.plot(t_axis, y_temp, color='#1f77b4', lw=2, alpha=0.8)
-    
-    # ZÖLD SZAGGATOTT VONAL AZ OPTIMUMNÁL (4.99°C)
-    ax1.axvline(peak_temp, color='green', linestyle='--', linewidth=1, alpha=0.7, label='Optimum')
-    
-    # PIROS GÖMB
+    y_temp = [calc_temp_p(t) for t in t_axis]
+    fig1, ax1 = plt.subplots(figsize=(4, 2.5))
+    ax1.plot(t_axis, y_temp, color='#1f77b4', lw=2)
+    ax1.axvline(peak_temp, color='green', linestyle='--', linewidth=1, alpha=0.7)
     ax1.scatter([temp], [c_temp_p], color='red', s=60, zorder=5)
-    
     style_plot(ax1, "Hőmérséklet hatás", "°C")
     st.pyplot(fig1)
 
-# 2. Csapadék grafikon
 with g2:
     r_axis = np.linspace(0, 50, 100)
-    y_rain = calc_rain_p(r_axis)
-    fig2, ax2 = plt.subplots(figsize=(4, 2))
-    ax2.plot(r_axis, y_rain, color='#ff7f0e', lw=2, alpha=0.8)
-    # PIROS GÖMB
+    y_rain = [calc_rain_p(r) for r in r_axis]
+    fig2, ax2 = plt.subplots(figsize=(4, 2.5))
+    ax2.plot(r_axis, y_rain, color='#ff7f0e', lw=2)
     ax2.scatter([rain], [c_rain_p], color='red', s=60, zorder=5)
     style_plot(ax2, "Csapadék hatás", "mm")
     st.pyplot(fig2)
 
-st.markdown("<br>", unsafe_allow_html=True)
-#st.info("A zöld szaggatott vonal az elméleti maximumot (4,99°C) jelöli.")
-
-# --- SZÖVEGES ÖSSZEFOGLALÓ A TANULMÁNY ALAPJÁN ---
-st.write(f"### Összefoglaló a tanulmány* alapján")
+# --- ÖSSZEFOGLALÓ ---
+st.write("### Összefoglaló a tanulmány* alapján")
 st.write("""
-A 2014 és 2022 közötti magyarországi választási adatokat elemző kutatás alapján az időjárás az alábbiak szerint befolyásolja a részvételt:
+A 2014 és 2022 közötti magyarországi választási adatokat elemző kutatás alapján:
 
-* **Hőmérséklet:** Az összefüggés **negatív négyzetes**. Ez azt jelenti, hogy létezik egy optimális hőmérsékleti tartomány (kb. **5°C** átlaghőmérséklet), ahol a legmagasabb a választási kedv. Az ennél jóval hidegebb idő diszkomfortot okoz, míg a jelentős melegedés az alternatív szabadidős programok (pl. kirándulás, strand) vonzerejét növeli, így mindkét irányú eltérés csökkenti a részvételt.
+* **Hőmérséklet:** Az összefüggés **negatív négyzetes**. Létezik egy optimális hőmérséklet (kb. **5°C**), ahol a legmagasabb a választási kedv. Ennél hidegebb időben a diszkomfort, melegebb időben pedig az alternatív szabadidős programok csökkentik a részvételt.
+* **Csapadék:** A kapcsolat **lineárisan negatív**. Minden milliméternyi csapadék növeli a szavazás kényelmetlenségét, ami arányosan csökkenti a részvételt.
+""")
 
-* **Csapadék:** A kapcsolat **lineárisan negatív**. Minden egyes milliméternyi csapadék növeli a szavazás „költségét” (kényelmetlenség), ami egyértelműen és arányosan csökkenti a részvételi hajlandóságot.
-Fontos, hogy a csapadék eloszlása területenként nagyon változó lehet, így csak azon területek eredményeit korrigáljuk vele ahova ténylegesen várjuk a csapadékot.
-
+# --- MATEMATIKAI HÁTTÉR ---
 st.write("### A modell matematikai háttere")
 
-# Hőmérséklet egyenlete (Négyzetes/Polinom)
 st.write("**1. Hőmérsékleti hatás (négyzetes összefüggés):**")
-st.latex(r"f(T) = 0,00262 \cdot T - 0,000262 \cdot T^2")
+st.latex(r"f(T) = 0,002625 \cdot T - 0,0002628 \cdot T^2")
 
-# Csapadék egyenlete (Lineáris)
 st.write("**2. Csapadék hatása (lineáris összefüggés):**")
-st.latex(r"\Delta Részvétel = -0,000925 \cdot Csapadék_{mm}")
+st.latex(r"\Delta Részvétel = -0,0009251 \cdot Csapadék_{mm}")
 
 st.info("""
-A fenti egyenletek a tanulmány 6. számú (legpontosabb) modelljéből származnak. 
+A fenti egyenletek a tanulmány 6. számú modelljéből származnak. 
 A hőmérsékleti görbe csúcspontja 4,99°C, míg a csapadék minden millimétere 
 lineárisan csökkenti a részvételi hajlandóságot.
 """)
