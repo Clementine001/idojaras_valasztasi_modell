@@ -121,8 +121,8 @@ st.write("### Összefoglaló a tanulmány* alapján")
 st.write("""
 A 2014 és 2022 közötti magyarországi választási adatokat elemző kutatás alapján:
 
-* **Hőmérséklet:** Az összefüggés **negatív négyzetes**. Létezik egy optimális hőmérséklet (kb. **5°C**), ahol a legmagasabb a választási kedv. Ennél hidegebb időben a diszkomfort, melegebb időben pedig az alternatív szabadidős programok csökkentik a részvételt.
-* **Csapadék:** A kapcsolat **lineárisan negatív**. Minden milliméternyi csapadék növeli a szavazás kényelmetlenségét, ami arányosan csökkenti a részvételt.
+* **Hőmérséklet:** Az összefüggés **negatív négyzetes**. Létezik egy optimális napi átlaghőmérséklet (kb. **5°C**), ahol a legmagasabb a választási kedv. Ennél hidegebb időben a diszkomfort, melegebb időben pedig az alternatív szabadidős programok csökkentik a részvételt.
+* **Csapadék:** A kapcsolat **lineárisan negatív**. Minden milliméternyi növekedés a napi csapadékösszegben növeli a szavazás kényelmetlenségét, ami arányosan csökkenti a részvételt.
 """)
 
 # --- MATEMATIKAI HÁTTÉR ---
