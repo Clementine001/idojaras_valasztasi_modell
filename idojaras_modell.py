@@ -131,8 +131,24 @@ st.write("""
 A 2014 és 2022 közötti magyarországi választási adatokat elemző kutatás alapján az időjárás az alábbiak szerint befolyásolja a részvételt:
 
 * **Hőmérséklet:** Az összefüggés **negatív négyzetes**. Ez azt jelenti, hogy létezik egy optimális hőmérsékleti tartomány (kb. **5°C** átlaghőmérséklet), ahol a legmagasabb a választási kedv. Az ennél jóval hidegebb idő diszkomfortot okoz, míg a jelentős melegedés az alternatív szabadidős programok (pl. kirándulás, strand) vonzerejét növeli, így mindkét irányú eltérés csökkenti a részvételt.
+
+st.write("### A modell matematikai háttere")
+st.write("A számítás alapjául szolgáló lineáris regressziós egyenlet (Nagy, 2023):")
+st.latex(r"Részvétel \Delta = \beta_{hőm} \cdot T + \beta_{csap} \cdot C + \dots")
+
+st.write("A hőmérséklet hatását leíró négyzetes összefüggés:")
+st.latex(r"f(T) = 0.00262 \cdot T - 0.000262 \cdot T^2")
+
 * **Csapadék:** A kapcsolat **lineárisan negatív**. Minden egyes milliméternyi csapadék növeli a szavazás „költségét” (kényelmetlenség), ami egyértelműen és arányosan csökkenti a részvételi hajlandóságot.
 Fontos, hogy a csapadék eloszlása területenként nagyon változó lehet, így csak azon területek eredményeit korrigáljuk vele ahova ténylegesen várjuk a csapadékot.
+
+st.write("#### A csapadék hatásának matematikai leírása")
+st.latex(r"\Delta Részvétel = -0.000925 \cdot Csapadék_{mm}")
+st.info("""
+**Értelmezés:** A modell alapján a csapadék hatása lineáris. 
+Minden lehullott milliméter csapadék kb. **0,09 százalékponttal** csökkenti a várható részvételt. 
+Egy kiadósabb, 10 mm-es eső esetén ez már majdnem **1 teljes százalékpontos** visszaesést jelenthet országos szinten.
+""")
 
 """)
 
