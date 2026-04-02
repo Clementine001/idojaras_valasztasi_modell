@@ -25,7 +25,7 @@ with st.container():
         rain = st.number_input("Várható napi csapadékösszeg (mm)", 0, 100, 0)
     
     temp = st.select_slider("Várható napi átlaghőmérséklet (°C)", 
-                            options=np.arange(-15.0, 35.5, 0.5).tolist(), value=15.0)
+                            options=np.arange(-15.0, 35.5, 0.5).tolist(), value=10.0)
 
 # --- MATEMATIKAI SZÁMÍTÁSOK ---
 peak_temp = 4.9943
@@ -48,8 +48,8 @@ m1.metric("Hőmérséklet hatása", f"{c_temp_p:+.2f} %")
 m2.metric("Csapadék hatása", f"{c_rain_p:+.2f} %")
 m3.metric("Várható korrigált részvétel", f"{total_res:.1f} %")
 
-if temp < -0.3 or temp > 23.7 or rain > 17.5:
-    st.warning("⚠️ **Figyelem:** A beállított értékek kívül esnek a tanulmányban vizsgált eredeti tartományon (-0,3°C – 23,7°C és max. 17,5 mm). Az ezen kívüli becslések statisztikailag bizonytalanabbak.")
+if temp < -3.4 or temp > 16.7 or rain > 11.9:
+    st.warning("⚠️ **Figyelem:** A beállított értékek kívül esnek a tanulmányban vizsgált eredeti tartományon (-3,4°C – 16,7°C és max. 11,9 mm). Az ezen kívüli becslések statisztikailag bizonytalanabbak.")
 
 # --- DINAMIKUS GRAFIKONOK PIROS GÖMBBEL ÉS OPTIMUMMAL ---
 st.write("---")
