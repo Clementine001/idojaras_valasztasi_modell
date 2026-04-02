@@ -33,7 +33,7 @@ st.markdown("""
 
     /* A számérték (value) kényszerítése */
     [data-testid="stMetricValue"] > div {
-        font-size: 1.1rem !important;
+        font-size: 1.2rem !important;
         color: #31333F !important; /* Erős sötét szín a számnak */
         font-weight: 700 !important;
     }
@@ -76,8 +76,8 @@ total_res = max_part + c_temp_p + c_rain_p
 # --- EREDMÉNYEK ---
 st.markdown("---")
 m1, m2, m3 = st.columns(3)
-m1.metric("Hőm. hatása", f"{c_temp_p:+.2f} %")
-m2.metric("Csap. hatása", f"{c_rain_p:+.2f} %")
+m1.metric("Hőmérséklet hatása", f"{c_temp_p:+.2f} %")
+m2.metric("Csapadék hatása", f"{c_rain_p:+.2f} %")
 m3.metric("Várható részvétel", f"{total_res:.1f} %")
 
 if temp < -3.4 or temp > 16.7 or rain > 11.9:
