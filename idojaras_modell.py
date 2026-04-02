@@ -56,7 +56,7 @@ with st.container():
         rain = st.number_input("Várható napi csapadékösszeg (mm)", 0, 100, 0)
     
     temp = st.select_slider("Várható napi átlaghőmérséklet (°C)", 
-                            options=np.arange(-5.0, 21.0, 0.5).tolist(), value=5.0)
+                            options=np.arange(-10.0, 21.0, 0.5).tolist(), value=5.0)
 
 # --- MATEMATIKAI SZÁMÍTÁSOK ---
 peak_temp = 4.9943
