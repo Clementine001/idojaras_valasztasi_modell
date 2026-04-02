@@ -142,7 +142,7 @@ lineárisan csökkenti a részvételi hajlandóságot.
 
 st.markdown("""
     <p style='font-size: 0.9rem; font-style: italic;'>
-        Forrás: <a href='https://poltudszemle.hu/wp-content/uploads/2024/10/1SZAVAZUNK.pdf' target='_blank'>
+        *Forrás: <a href='https://poltudszemle.hu/wp-content/uploads/2024/10/1SZAVAZUNK.pdf' target='_blank'>
         SZAVAZUNK, HA ESIK, HA FÚJ?</a>
     </p>
     """, unsafe_allow_html=True)
